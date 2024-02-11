@@ -1,16 +1,31 @@
-// authenticationMiddleware.js
+// Correct relative path if both files are in the same directory
+const { verifyToken } = require('./jwtUtil');
 
+
+/**
+ * Authentication middleware for Express
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next function
+ */
 function authenticationMiddleware(req, res, next) {
-  // Implement your authentication logic here
-  // For example, you can check if the user is authenticated using session, token, etc.
-  // If authenticated, call next() to proceed to the next middleware/route handler
-  // If not authenticated, you can send an error response or redirect the user to the login page
-  // This is just a placeholder, replace it with your actual authentication logic
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    res.status(401).send('Unauthorized');
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized - No JWT provided' });
   }
+
+  const decoded = verifyToken(token);
+
+  if (!decoded) {
+    return res.status(401).json({ error: 'Unauthorized - Invalid JWT' });
+  }
+
+  // Attach the decoded payload to the request for further use
+  req.user = decoded;
+
+  // Proceed to the next middleware or route handler
+  next();
 }
 
 module.exports = authenticationMiddleware;

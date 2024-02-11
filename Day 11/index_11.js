@@ -1,23 +1,21 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const authenticationMiddleware = require('./authenticationMiddleware');
 
 const app = express();
+const PORT = 3000;
 
-// Middleware
-app.use(express.json());
+app.use(bodyParser.json());
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('Home Page');
+  res.send('Welcome to the Express Authentication Example');
 });
 
-// Protected route
-app.get('/protected', authenticationMiddleware, (req, res) => {
-  res.send('Protected Route');
+app.get('/secured-route', authenticationMiddleware, (req, res) => {
+  res.send('This is a secured route.');
 });
 
-// Server
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
