@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Test</title>
+  <style>
+     h2{
+  /* Apply multiple box shadows */
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.12), /* first shadow */
+    0 1px 2px rgba(0, 0, 0, 0.24); /* second shadow */
+
+  /* Apply an awesome color */
+  color: #3765d8; /* Awesome color (orange-red) */
+  text-align: center;
+}
+/* div{
+  padding-left: 330px;
+} */
+  </style>
+</head>
+<body>
+  <h2> Hii Scaler! Day 13 Completed</h2>
+  <div id="chat">
+    <input type="text" id="messageInput" placeholder="Type your message here">
+    <button onclick="sendMessage()">Send</button>
+    <div id="messages"></div>
+  </div>
+  
+  <script>
+    const socket = new WebSocket('ws://localhost:3000');
+
+    socket.addEventListener('open', () => {
+      console.log('WebSocket connection established');
+    });
+
+    socket.addEventListener('message', (event) => {
+      console.log('Message from server:', event.data);
+      displayMessage(event.data);
+    });
+
+    function sendMessage() {
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value.trim();
+      if (message !== '') {
+        socket.send(message);
+        displayMessage(`You: ${message}`);
+        messageInput.value = '';
+      }
+    }
+
+    function displayMessage(message) {
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML += `<p>${message}</p>`;
+    }
+  </script>
+</body>
+</html>
