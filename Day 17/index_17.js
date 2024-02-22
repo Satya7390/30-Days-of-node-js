@@ -40,3 +40,4 @@ async function addUserToDatabase(user) {
 addUserToDatabase({ username: 'rahul', email: 'rahul@example.com',  age:'29' });
 addUserToDatabase({ username: 'raman', email: 'raman@example.com',  age:'23' });
 
+
