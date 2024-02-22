@@ -10,7 +10,8 @@ http.listen(3000, function(){
 
 const userSchema = new mongoose.Schema({
   username: String,
-  email: String
+  email: String,
+  age: { type: Number } 
 });
 
 
@@ -36,4 +37,6 @@ async function addUserToDatabase(user) {
 }
 
 //  Test the addUserToDatabase Function
-addUserToDatabase({ username: 'john_doe', email: 'john@example.com' });
+addUserToDatabase({ username: 'rahul', email: 'rahul@example.com',  age:'29' });
+addUserToDatabase({ username: 'raman', email: 'raman@example.com',  age:'23' });
+
